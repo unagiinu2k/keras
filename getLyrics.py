@@ -31,8 +31,11 @@ for item in gdata:
 
 
 
-Titles = [i[0] for i in eminemLyrics]
-Lyrics = [i[1] for i in eminemLyrics]
+removeKey = '\n\nSubmit LyricsYour name will be printed as part of the credit when your lyric is approved. \n'
+runRows = [i[1] == removeKey for i in eminemLyrics]
+eminemLyrics[[runRows]]
+Titles = [i[0] for i in eminemLyrics if i[1] != removeKey]
+Lyrics = [i[1] for i in eminemLyrics if i[1] != removeKey]
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -56,3 +59,10 @@ elif vectorizerType "stem":
 X = Vectorizer.fit_transform(Lyrics)
 X.toarray()
 featureNames = Vectorizer.get_feature_names()
+len(featureNames)
+
+from sklearn.cluster import KMeans
+kmeansModel = KMeans(n_clusters= 4 ,  random_state= 10).fit(X)
+Labels = kmeansModel.labels_
+import pandas
+pandas.DataFrame(Titles , Labels)
