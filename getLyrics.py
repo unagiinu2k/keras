@@ -61,8 +61,16 @@ X.toarray()
 featureNames = Vectorizer.get_feature_names()
 len(featureNames)
 
+#K-means
+#http://qiita.com/ynakayama/items/1223b6844a1a044e2e3b
 from sklearn.cluster import KMeans
 kmeansModel = KMeans(n_clusters= 4 ,  random_state= 10).fit(X)
 Labels = kmeansModel.labels_
 import pandas
-pandas.DataFrame(Titles , Labels)
+import numpy
+Titles = numpy.asarray(Titles)
+clusterResult = pandas.DataFrame({"Title" : Titles , "Label" : Labels})
+
+runGroups = []
+for i in set(clusterResult["Label"]):
+    runGroups.append(clusterResult.query('Label == ' +  str(i)))
