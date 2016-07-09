@@ -5,7 +5,8 @@ import requests
 import nltk
 from bs4 import BeautifulSoup
 
-url = 'http://www.lyrics.com/eminem'
+#url = 'http://www.lyrics.com/eminem'
+url = 'http://www.lyrics.com/radiohead'
 r = requests.get(url)
 soup = BeautifulSoup(r.content)
 gdata = soup.find_all('div',{'class':'row'})
@@ -74,3 +75,17 @@ clusterResult = pandas.DataFrame({"Title" : Titles , "Label" : Labels})
 runGroups = []
 for i in set(clusterResult["Label"]):
     runGroups.append(clusterResult.query('Label == ' +  str(i)))
+
+#word2vec
+#http://tjo.hatenablog.com/entry/2014/06/19/233949#f-5d99effc
+
+#from gensim.models import word2vec
+import gensim
+if False:
+    #http://stackoverflow.com/questions/33989826/python-gensim-runtimeerror-you-must-first-build-vocabulary-before-training-th
+    tmp = gensim.models.Word2Vec([["nowhere",  "man",  "please" , "listen"] , ["the" , "long" ,  "and" , "winding" , "road"]] , size = 200 , min_count= 1)
+
+#word2vecData = d2vec.Text8Corpus(Lyrics[5:10])
+vocab = [s.split() for s in Lyrics]
+word2vecModel = gensim.models.Word2Vec(vocab , size = 200)
+word2vecModel.most_similar(positive=[u"kill"])
