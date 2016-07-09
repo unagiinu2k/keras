@@ -33,9 +33,26 @@ for item in gdata:
 
 Titles = [i[0] for i in eminemLyrics]
 Lyrics = [i[1] for i in eminemLyrics]
-
 from sklearn.feature_extraction.text import CountVectorizer
-Vectorizer = CountVectorizer(min_df = 1)
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+
+import nltk.stem
+englishStemmer = nltk.stem.SnowballStemmer('english')
+
+class stemmedTfidfVectorizer(TfidfVectorizer):
+    def build_analyzer(self):
+        analyzer = super(TfidfVectorizer, self).build_analyzer()
+        return lambda doc: (englishStemmer.stem(w) for w in analyzer(doc))
+
+vectorizerType = "stem"
+if vectorizerType == "simplest" :
+    Vectorizer = CountVectorizer(min_df = 1)
+elif vectorizerType "stem":
+    # p64 of the book
+    Vectorizer = stemmedTfidfVectorizer(min_df = 1 , stop_words= "english"   ,decode_error="ignore")
+
+
 X = Vectorizer.fit_transform(Lyrics)
 X.toarray()
-Vectorizer.get_feature_names()
+featureNames = Vectorizer.get_feature_names()
