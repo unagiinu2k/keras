@@ -79,7 +79,7 @@ for i in set(clusterResult["Label"]):
 #word2vec
 #http://tjo.hatenablog.com/entry/2014/06/19/233949#f-5d99effc
 
-#from gensim.models import word2vec
+#word2vec
 import gensim
 if False:
     #http://stackoverflow.com/questions/33989826/python-gensim-runtimeerror-you-must-first-build-vocabulary-before-training-th
@@ -87,5 +87,19 @@ if False:
 
 #word2vecData = d2vec.Text8Corpus(Lyrics[5:10])
 vocab = [s.split() for s in Lyrics]
-word2vecModel = gensim.models.Word2Vec(vocab , size = 200)
-word2vecModel.most_similar(positive=[u"kill"])
+word2vecModel = gensim.models.Word2Vec(vocab , size = 200 , iter=100)
+word2vecModel.most_similar(positive=[u"song"])
+word2vecModel.most_similar(positive=[u"tell" , "me"])
+word2vecModel["song"]
+
+
+#LDA
+#http://sucrose.hatenablog.com/entry/2013/10/29/001041
+Dictionary = gensim.corpora.Dictionary(vocab)
+print(Dictionary)
+Dictionary.doc2bow(vocab[1])
+Corpus = [Dictionary.doc2bow(t) for t in vocab]
+Token2id = Dictionary.token2id
+lda = gensim.models.LdaModel(corpus=Corpus , id2word = Dictionary)
+lda.show_topic(-1)[1]
+gensim.corpora.LowCorpus(vocab)
