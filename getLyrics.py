@@ -54,7 +54,7 @@ if vectorizerType == "simplest" :
     Vectorizer = CountVectorizer(min_df = 1)
 elif vectorizerType "stem":
     # p64 of the book
-    Vectorizer = stemmedTfidfVectorizer(min_df = 1 , stop_words= "english"   ,decode_error="ignore")
+    Vectorizer = stemmedTfidfVectorizer(min_df = 1 , max_df= 10 , stop_words= "english"   ,decode_error="ignore")
 
 
 X = Vectorizer.fit_transform(Lyrics)
@@ -99,7 +99,19 @@ Dictionary = gensim.corpora.Dictionary(vocab)
 print(Dictionary)
 Dictionary.doc2bow(vocab[1])
 Corpus = [Dictionary.doc2bow(t) for t in vocab]
-Token2id = Dictionary.token2id
-lda = gensim.models.LdaModel(corpus=Corpus , id2word = Dictionary)
-lda.show_topic(-1)[1]
+Tfidf = gensim.models.TfidfModel(Corpus)
+corpusTfidf = Tfidf[Corpus]
+if True :
+    Lda = gensim.models.LdaModel(corpus=corpusTfidf , id2word = Dictionary , num_topics=20)
+else:
+    Lda = gensim.models.LdaModel(corpus=Corpus , id2word = Dictionary , num_topics=20)
+[t for t in Lda.show_topic(-1)]
+
+for t in Lda.show_topic(-1):
+    print(t)
+for t in Lda[Corpus]:
+    print(t)
+
+Lda.show_topic(-1)[1]
+lda[Corpus[1]]
 gensim.corpora.LowCorpus(vocab)
