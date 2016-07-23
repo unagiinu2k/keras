@@ -34,9 +34,11 @@ for item in gdata:
 
 removeKey = '\n\nSubmit LyricsYour name will be printed as part of the credit when your lyric is approved. \n'
 runRows = [i[1] == removeKey for i in eminemLyrics]
-eminemLyrics[[runRows]]
+#eminemLyrics[[runRows]]
 Titles = [i[0] for i in eminemLyrics if i[1] != removeKey]
 Lyrics = [i[1] for i in eminemLyrics if i[1] != removeKey]
+
+
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -58,9 +60,10 @@ elif vectorizerType "stem":
 
 
 X = Vectorizer.fit_transform(Lyrics)
-X.toarray()
+X2 = X.toarray()
 featureNames = Vectorizer.get_feature_names()
 len(featureNames)
+X2[3,:]
 
 #K-means
 #http://qiita.com/ynakayama/items/1223b6844a1a044e2e3b
@@ -87,10 +90,27 @@ if False:
 
 #word2vecData = d2vec.Text8Corpus(Lyrics[5:10])
 vocab = [s.split() for s in Lyrics]
-word2vecModel = gensim.models.Word2Vec(vocab , size = 200 , iter=100)
-word2vecModel.most_similar(positive=[u"song"])
+
+
+
+
+if True:
+    #単語レベルに分解したlistのlistを食わせるのが正しい。toy exampleではmin_countを1とかにしておくのが良い
+    word2vecModel = gensim.models.Word2Vec(vocab , min_count=1 , size = 20 ,  iter=100)
+if False:
+    word2vecModel = gensim.models.Word2Vec(Lyrics , size = 20 ,  iter=100)
+if False:
+    OneLyrics = ""
+    for s in Lyrics:
+        OneLyrics = OneLyrics + "\n" +  s
+    word2vecModel = gensim.models.Word2Vec(OneLyrics , size = 20 ,  iter=100)
+
+tmp =word2vecModel.vocab
+word2vecModel.most_similar(positive=[u"I"])
+word2vecModel.most_similar(positive=[u"dreamer"])
+word2vecModel.most_similar(positive=[u"nightmare"])
 word2vecModel.most_similar(positive=[u"tell" , "me"])
-word2vecModel["song"]
+
 
 
 #LDA
@@ -99,9 +119,11 @@ Dictionary = gensim.corpora.Dictionary(vocab)
 print(Dictionary)
 Dictionary.doc2bow(vocab[1])
 Corpus = [Dictionary.doc2bow(t) for t in vocab]
-Tfidf = gensim.models.TfidfModel(Corpus)
+#https://radimrehurek.com/gensim/tut2.html
+Tfidf = gensim.models.TfidfModel(Corpus , id2word=Dictionary)
 corpusTfidf = Tfidf[Corpus]
-if True :
+useTfidfCorpus = True
+if useTfidfCorpus:
     Lda = gensim.models.LdaModel(corpus=corpusTfidf , id2word = Dictionary , num_topics=20)
 else:
     Lda = gensim.models.LdaModel(corpus=Corpus , id2word = Dictionary , num_topics=20)
