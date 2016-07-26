@@ -73,7 +73,10 @@ if useTfidfCorpus:
     Lda = gensim.models.LdaModel(corpus=corpusTfidf , id2word = Dictionary , num_topics=20)
 else:
     Lda = gensim.models.LdaModel(corpus=Corpus , id2word = Dictionary , num_topics=20)
-[t for t in Lda.show_topic(-1)]
+
+if checkVariables:
+    tmp = Lda.show_topics(-1) #show_topicsとshow_topicで挙動が違うのに注意！
+    [t for t in Lda.show_topic(-1)]
 
 for t in Lda.show_topic(-1):
     print(t)
@@ -83,3 +86,39 @@ for t in Lda[Corpus]:
 Lda.show_topic(-1)[1]
 lda[Corpus[1]]
 gensim.corpora.LowCorpus(vocab)
+
+
+from __future__ import print_function
+warned_of_error = False
+
+def create_cloud(oname, words,maxsize=120, fontname='Lobster'):
+    '''Creates a word cloud (when pytagcloud is installed)
+
+    Parameters
+    ----------
+    oname : output filename
+    words : list of (value,str)
+    maxsize : int, optional
+        Size of maximum word. The best setting for this parameter will often
+        require some manual tuning for each input.
+    fontname : str, optional
+        Font to use.
+    '''
+    try:
+        from pytagcloud import create_tag_image, make_tags
+    except ImportError:
+        if not warned_of_error:
+            print("Could not import pytagcloud. Skipping cloud generation")
+        return
+
+    # gensim returns a weight between 0 and 1 for each word, while pytagcloudh
+    # expects an integer word count. So, we multiply by a large number and
+    # round. For a visualization this is an adequate approximation.
+    # We also need to flip the order as gensim returns (value, word), whilst
+    # pytagcloud expects (word, value):
+    words = [(v,int(w*10000)) for v,w in words]
+    tags = make_tags(words, maxsize=maxsize)
+    create_tag_image(tags, oname, size=(1800, 1200), fontname=fontname)
+
+
+create_cloud('Lyrics.png', Lda.show_topic(-1), maxsize = 50, fontname='Cardo')
