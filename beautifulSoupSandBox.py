@@ -26,21 +26,29 @@ for item2 in gdata2:
 
 
 r3 = requests.get("http://www.lyrics.com")
-soup3 = bs4.BeautifulSoup(r3.content)
-#attribute3 = {'valign':'top' ,  'width':"54" ,  "align" :"center"}
-attribute3 = {'width' : '100'}
-gdata3 = soup3.find_all('td' ,attribute3)
-urlHead3 = "http://www.lyrics.com"
+
+import numpy
 runLyrics = []
-for item3 in gdata3:
-    link = item3("a")
-        #.find_all("a" , {"style":"font-weight:bold;"})
-    lyriclink = urlHead3 + link[0].get('href')
-    req = requests.get(lyriclink)
-    lyricsoup = BeautifulSoup(req.content)
-    lyricdata = lyricsoup.find_all('div',{'id':re.compile('lyric_space|lyrics')})[0].text
-    title = item3("a")[0].text
-    runLyrics.append([title,lyricdata])
+urlHead3 = "http://www.lyrics.com"
+attribute3 = {'width' : '100'}
+rankRanges = numpy.arange(0,210,30)
+for r in rankRanges:
+    runUrl = "http://www.lyrics.com/tophits/home_countries/" + str(r) + "/US"
+    r3 = requests.get(runUrl)
+    soup3 = bs4.BeautifulSoup(r3.content)
+
+    gdata3 = soup3.find_all('td' ,attribute3)
+
+
+    for item3 in gdata3:
+        link = item3("a")
+            #.find_all("a" , {"style":"font-weight:bold;"})
+        lyriclink = urlHead3 + link[0].get('href')
+        req = requests.get(lyriclink)
+        lyricsoup = BeautifulSoup(req.content)
+        lyricdata = lyricsoup.find_all('div',{'id':re.compile('lyric_space|lyrics')})[0].text
+        title = item3("a")[0].text
+        runLyrics.append([title,lyricdata])
 
 
 type(tmp)
