@@ -49,6 +49,7 @@ word2vecModel.most_similar(positive=[u"love"])
 word2vecModel.most_similar(positive=[u"Let"])
 word2vecModel.most_similar(positive=[u"In"])
 word2vecModel.most_similar(positive=[u"tell" , "me"])
+word2vecModel.most_similar(positive=[u"king"  ,  u"woman"] , negative=["man"] )
 
 
 
@@ -104,5 +105,5 @@ words = [(v,int(w*10000)) for v,w in Lda.show_topic(-1)]
 tags = make_tags(words, maxsize=maxsize)
 create_tag_image(tags, oname, size=(1800, 1200), fontname=fontname)
 
-
+　
 create_cloud('Lyrics.png', Lda.show_topic(-1), maxsize = 50, fontname='Cardo')
