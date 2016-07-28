@@ -93,17 +93,18 @@ gensim.corpora.LowCorpus(vocab)
 
 from __future__ import print_function
 warned_of_error = False
-oname = 'Lyrics.png'
+
 words0 = Lda.show_topic(-1 , topn = 10)
 maxsize=120
 fontname='Lobster'
-#def create_cloud():
+
 
 from pytagcloud import create_tag_image, make_tags
-
-words = [(v,int(w*10000)) for v,w in Lda.show_topic(-1)]
-tags = make_tags(words, maxsize=maxsize)
-create_tag_image(tags, oname, size=(1800, 1200), fontname=fontname)
+for i in numpy.arange(0,30):
+    oname = 'output/Lyrics' + str(i) + '.png'
+    words = [(v,int(w*10000)) for v,w in Lda.show_topic(i)]
+    tags = make_tags(words, maxsize=maxsize)
+    create_tag_image(tags, oname, size=(1800, 1200), fontname=fontname)
 
 　
-create_cloud('Lyrics.png', Lda.show_topic(-1), maxsize = 50, fontname='Cardo')
+#create_cloud('Lyrics.png', Lda.show_topic(-1), maxsize = 50, fontname='Cardo')
