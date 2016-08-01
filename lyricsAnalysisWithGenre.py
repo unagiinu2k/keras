@@ -42,11 +42,21 @@ isUsePretrained = True
 
 if isUsePretrained:
     import os
-    pretrainedFile = os.path.join(r"C:\Users\t\git\keras\pretrained" , 'GoogleNews-vectors-negative300.bin.gz')
-    word2vecModel = gensim.models.word2vec.Word2Vec.load_word2vec_format(pretrainedFile , binary=True)
+    gensim_pretrained_model_file = os.path.join(r"C:\Users\t\git\keras\pretrained" , 'pretrained_gensim_word2vec')
+    is_gensim_word2vec_model_saved = True
+    if is_gensim_word2vec_model_saved:
+        word2vecModel = gensim.models.Word2Vec.load(gensim_pretrained_model_file)
+    else:
+        pretrainedFile = os.path.join(r"C:\Users\t\git\keras\pretrained" , 'GoogleNews-vectors-negative300.bin.gz')
+        #no need to unzip
+        #http://rare-technologies.com/word2vec-tutorial/
+        word2vecModel = gensim.models.word2vec.Word2Vec.load_word2vec_format(pretrainedFile , binary=True)
+
+        word2vecModel.save(gensim_pretrained_model_file)
 
 
     #http://stackoverflow.com/questions/27139908/load-precomputed-vectors-gensim
+    #https://code.google.com/archive/p/word2vec/
 
 else:
     word2vecModel = gensim.models.Word2Vec(vocab , min_count=1 , size = 20 ,  iter=100)
@@ -57,8 +67,12 @@ runVocab =word2vecModel.vocab
 if checkVariables:
     runVocab.keys()
 
-word2vecModel.most_similar(positive=[u"I"])
-word2vecModel.most_similar(positive=[u"dreamer"])
+
+word2vecModel["computer"]
+#most_similar is very time consuming when using pretrained vector
+
+word2vecModel.most_similar(positive=[u"I"] , restrict_vocab= 1000)
+word2vecModel.most_similar(positive=[u"dreamer"] , restrict_vocab=1000)
 word2vecModel.most_similar(positive=[u"nightmare"])
 
 word2vecModel.most_similar(positive=[u"love"])
