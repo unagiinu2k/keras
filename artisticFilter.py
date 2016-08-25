@@ -77,8 +77,10 @@ if False:
 else:
 
     base_image_path = r"base_graphics"
-    base_image_path = r"c:\Users\t\git\keras\base_graphics\car.jpg"
-    style_reference_image_path = r"style_refs\009.jpg"
+    #base_image_path = r"c:\Users\t\git\keras\base_graphics\car.jpg"
+    base_image_path = r"c:\Users\t\git\keras\base_graphics\cat.png"
+#    style_reference_image_path = r"style_refs\009.jpg"
+    style_reference_image_path = r"style_refs\style_0.png"
     result_prefix = "tmp"
 
 
@@ -246,7 +248,7 @@ loss += total_variation_weight * total_variation_loss(combination_image)
 # get the gradients of the generated image wrt the loss
 grads = K.gradients(loss, combination_image)
 
-w
+
 outputs = [loss]
 if type(grads) in {list, tuple}:
     outputs += grads
