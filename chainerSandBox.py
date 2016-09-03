@@ -17,7 +17,7 @@ test[0][0].shape
 test[0][1]
 
 
-train_iter = iterators.SerialIterator(train, batch_size=100, shuffle=True)
+train_iter = iterators.SerialIterator(train, batch_size=100, shuffle=True)#training processのミニバッチサイズなどを与える
 type(train_iter)
 if False:
     train_iter.next()
