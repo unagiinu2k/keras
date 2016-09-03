@@ -36,3 +36,29 @@ class MLP(Chain):
         h2 = F.relu(self.l2(h1))
         y = self.l3(h2)
         return y
+
+
+class Classifier(Chain):
+    def __init__(self, predictor):
+        super(Classifier, self).__init__(predictor=predictor)
+    def __call__(self, x, t):
+        y = self.predictor(x)
+        loss = F.softmax_cross_entropy(y, t)
+        accuracy = F.accuracy(y, t)
+        report({'loss': loss, 'accuracy': accuracy}, self)
+        return loss
+
+
+
+model = Classifier(MLP())＃MLPmodelの結果と教師データとの誤差を返すような「関数」をmodelとして定義
+optimizer = optimizers.SGD()#誤差拡散法を使う
+optimizer.setup(model) #目的関数を与える
+updater = training.StandardUpdater(train_iter , optimizer)
+trainer = training.Trainer(updater, (20, 'epoch'), out='result')
+if False:
+
+    trainer.extend(extensions.Evaluator(test_iter, model))
+    trainer.extend(extensions.LogReport())
+    trainer.extend(extensions.PrintReport(['epoch', 'main/accuracy', 'validation/main/accuracy']))
+    trainer.extend(extensions.ProgressBar())
+trainer.run()
