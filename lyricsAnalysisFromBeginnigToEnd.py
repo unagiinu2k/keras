@@ -9,11 +9,13 @@ runLyrics = []
 urlHead3 = "http://www.lyrics.com"
 attribute3 = {'width' : '100'}
 rankRanges = numpy.arange(0,210,30)
+import time
 for r in rankRanges:
     runUrl = "http://www.lyrics.com/tophits/home_countries/" + str(r) + "/US"
     r3 = requests.get(runUrl)
     soup3 = bs4.BeautifulSoup(r3.content)
     gdata3 = soup3.find_all('td' ,attribute3)
+    time.sleep(10)
     for item3 in gdata3:
         link = item3("a")
             #.find_all("a" , {"style":"font-weight:bold;"})
