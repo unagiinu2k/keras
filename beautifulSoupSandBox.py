@@ -36,10 +36,7 @@ for r in rankRanges:
     runUrl = "http://www.lyrics.com/tophits/home_countries/" + str(r) + "/US"
     r3 = requests.get(runUrl)
     soup3 = bs4.BeautifulSoup(r3.content)
-
     gdata3 = soup3.find_all('td' ,attribute3)
-
-
     for item3 in gdata3:
         link = item3("a")
             #.find_all("a" , {"style":"font-weight:bold;"})
@@ -51,4 +48,4 @@ for r in rankRanges:
         runLyrics.append([title,lyricdata])
 
 
-type(tmp)
+Lyrics = [s[1] for s in runLyrics]

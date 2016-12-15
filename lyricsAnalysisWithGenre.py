@@ -65,21 +65,68 @@ else:
 
 runVocab =word2vecModel.vocab
 if checkVariables:
-    runVocab.keys()
+    bigram_transformer = gensim.models.Phrases(vocab)
+    #word2vecModel.doesnt_match(vocab[1])
+    runMatrix = list()
+    for s in bigram_transformer[vocab[1]]:
+        try:
+            runVector = word2vecModel[s]
+            runMatrix = [runMatrix, runVector]
+
+runVocab = word2vecModel.index2word
+runMatrix = list()
+for s in vocab[1]:
+    if s in runVocab:
+        runVector = word2vecModel[s]
+        runMatrix = [runMatrix, runVector]
+    else:
+        print(s)
+# s = bigram_transformer[vocab[1]][1]
+# s = bigram_transformer[vocab[1]][0]
+len(runMatrix)
+    try:
+        runVector = word2vecModel[s]
+    except:
+    else:
+        runMatrix = [runMatrix, runVector]
+    print(s)
+
+
+
+a= 1
+
+try:
+    runVector = word2vecModel[s]
+except ValueError:
+    print("not contained")
+
+
+
+except:
+else:
+    runMatrix = [runMatrix, runVector]
+
+
+a = 1
+
+    word2vecModel[bigram_transformer[vocab[1]][1:3]]
 
 
 word2vecModel["computer"]
 #most_similar is very time consuming when using pretrained vector
 
-word2vecModel.most_similar(positive=[u"I"] , restrict_vocab= 1000)
-word2vecModel.most_similar(positive=[u"dreamer"] , restrict_vocab=1000)
-word2vecModel.most_similar(positive=[u"nightmare"])
 
-word2vecModel.most_similar(positive=[u"love"])
-word2vecModel.most_similar(positive=[u"Let"])
-word2vecModel.most_similar(positive=[u"In"])
-word2vecModel.most_similar(positive=[u"tell" , "me"])
-word2vecModel.most_similar(positive=[u"king"  ,  u"woman"] , negative=["man"] )
+vocabRestricted = 1000
+
+word2vecModel.most_similar(positive=[u"I"] , restrict_vocab= vocabRestricted)
+word2vecModel.most_similar(positive=[u"dreamer"] , restrict_vocab=vocabRestricted)
+word2vecModel.most_similar(positive=[u"nightmare"] , restrict_vocab=vocabRestricted)
+
+word2vecModel.most_similar(positive=[u"love"] , restrict_vocab=vocabRestricted)
+word2vecModel.most_similar(positive=[u"Let"] , restrict_vocab=vocabRestricted)
+word2vecModel.most_similar(positive=[u"In"] , restrict_vocab=vocabRestricted)
+word2vecModel.most_similar(positive=[u"tell" , "me"] , restrict_vocab=vocabRestricted)
+word2vecModel.most_similar(positive=[u"king"  ,  u"woman"] , negative=["man"]  , restrict_vocab=vocabRestricted)
 
 
 

@@ -88,6 +88,10 @@ if False:
     #http://stackoverflow.com/questions/33989826/python-gensim-runtimeerror-you-must-first-build-vocabulary-before-training-th
     tmp = gensim.models.Word2Vec([["nowhere",  "man",  "please" , "listen"] , ["the" , "long" ,  "and" , "winding" , "road"]] , size = 200 , min_count= 1)
 
+
+
+
+
 #word2vecData = d2vec.Text8Corpus(Lyrics[5:10])
 vocab = [s.split() for s in Lyrics]
 
@@ -109,6 +113,10 @@ tmp =word2vecModel.vocab
 word2vecModel.most_similar(positive=[u"I"])
 word2vecModel.most_similar(positive=[u"dreamer"])
 word2vecModel.most_similar(positive=[u"nightmare"])
+
+word2vecModel.most_similar(positive=[u"love"])
+word2vecModel.most_similar(positive=[u"Let"])
+word2vecModel.most_similar(positive=[u"In"])
 word2vecModel.most_similar(positive=[u"tell" , "me"])
 
 

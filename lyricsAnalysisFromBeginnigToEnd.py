@@ -15,7 +15,8 @@ for r in rankRanges:
     r3 = requests.get(runUrl)
     soup3 = bs4.BeautifulSoup(r3.content)
     gdata3 = soup3.find_all('td' ,attribute3)
-    time.sleep(10)
+    time.sleep(5)
+    print('.')
     for item3 in gdata3:
         link = item3("a")
             #.find_all("a" , {"style":"font-weight:bold;"})

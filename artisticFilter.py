@@ -1,5 +1,7 @@
-'''Neural style transfer with Keras.
+#https://elix-tech.github.io/ja/2016/08/22/art.html
 
+
+'''Neural style transfer with Keras.
 Before running this script, download the weights for the VGG16 model at:
 https://drive.google.com/file/d/0Bz7KyqmuGsilT0J5dmRCM0ROVHc/view?usp=sharing
 (source: https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3)
@@ -84,7 +86,8 @@ else:
     result_prefix = "tmp"
 
 
-weights_path = r'utils\vgg16_weights.h5'
+#weights_path = r'utils\vgg16_weights.h5'
+weights_path = r'data\vgg16_weights.h5'
 
 # these are the weights of the different loss components
 total_variation_weight = 1.

@@ -7,6 +7,51 @@ import chainer.functions as F
 import chainer.links as L
 from chainer.training import extensions
 
+x_data = np.array([5], dtype=np.float32)
+x = Variable(x_data)
+z_data = np.array([5], dtype=np.float32)
+z = Variable(z_data)
+#y = x + 1
+y = x + 2 * z
+if False:
+    x.data
+    y.data
+
+
+w = z ** 2
+#w.backward()
+w.backward(retain_grad = True)
+x.grad
+y.grad
+z.grad
+
+
+
+y.backward()
+#Note that gradients are accumulated by the method rather than overwritten. So first you must clear gradients to renew the computation. It can be done by calling the cleargrads()
+
+x.grad # yのxでの偏微分を返す
+z.grad #yのzでの偏微分を返す
+
+
+
+
+
+
+
+
+
+
+
+
+
+from chainer import cuda, Function, gradient_check, report, training, utils, Variable
+from chainer import datasets, iterators, optimizers, serializers
+from chainer import Link, Chain, ChainList
+import chainer.functions as F
+import chainer.links as L
+from chainer.training import extensions
+
 train, test = datasets.get_mnist()
 
 type(test)
